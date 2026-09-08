@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowLeft, ArrowRight, CalendarBlank, CheckCircle, List, MapPin, Quotes, X } from "@phosphor-icons/react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarBlank, CheckCircle, Diamond, List, MapPin, Quotes, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -16,12 +16,26 @@ const gallery = [
   ["/images/imperial-corridor.png", "Ivory arched corridor with warm evening light"],
 ];
 
+const scrollRoute = [
+  ["top", "Arrival"],
+  ["arrival", "Welcome"],
+  ["stay", "Stay"],
+  ["celebrate", "Celebrate"],
+  ["dine", "Dine"],
+  ["gallery", "Gallery"],
+  ["patna", "Patna"],
+  ["enquire", "Invitation"],
+];
+
 export default function ImperialHome() {
   const root = useRef<HTMLDivElement>(null);
+  const cursor = useRef<HTMLDivElement>(null);
+  const cursorLabel = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
+  const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
     if (!root.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -77,12 +91,93 @@ export default function ImperialHome() {
     };
   }, [menuOpen, enquiryOpen]);
 
+  useEffect(() => {
+    const updateActiveSection = () => {
+      const readingLine = window.innerHeight * 0.46;
+      let current = 0;
+      scrollRoute.forEach(([id], index) => {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= readingLine) current = index;
+      });
+      setActiveSection((previous) => previous === current ? previous : current);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, []);
+
+  useEffect(() => {
+    const cursorNode = cursor.current;
+    const labelNode = cursorLabel.current;
+    const canUseCursor = window.matchMedia("(pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!cursorNode || !labelNode || !canUseCursor) return;
+
+    document.documentElement.classList.add("has-custom-cursor");
+    const moveX = gsap.quickTo(cursorNode, "x", { duration: 0.22, ease: "power3.out" });
+    const moveY = gsap.quickTo(cursorNode, "y", { duration: 0.22, ease: "power3.out" });
+
+    const moveCursor = (event: PointerEvent) => {
+      moveX(event.clientX);
+      moveY(event.clientY);
+      cursorNode.classList.add("visible");
+    };
+    const updateCursorMode = (event: PointerEvent) => {
+      const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-cursor], a, button") : null;
+      const label = target?.dataset.cursor ?? (target ? "Select" : "");
+      labelNode.textContent = label;
+      cursorNode.classList.toggle("interactive", Boolean(target));
+      cursorNode.classList.toggle("labelled", Boolean(label));
+    };
+    const hideCursor = () => cursorNode.classList.remove("visible");
+
+    window.addEventListener("pointermove", moveCursor, { passive: true });
+    document.addEventListener("pointerover", updateCursorMode, { passive: true });
+    document.addEventListener("pointerout", updateCursorMode, { passive: true });
+    document.addEventListener("mouseleave", hideCursor);
+    return () => {
+      document.documentElement.classList.remove("has-custom-cursor");
+      window.removeEventListener("pointermove", moveCursor);
+      document.removeEventListener("pointerover", updateCursorMode);
+      document.removeEventListener("pointerout", updateCursorMode);
+      document.removeEventListener("mouseleave", hideCursor);
+    };
+  }, []);
+
   const nextImage = (direction: number) => {
     setActiveImage((current) => (current + direction + gallery.length) % gallery.length);
   };
 
   return (
     <div ref={root} className="site-shell">
+      <div ref={cursor} className="custom-cursor" aria-hidden="true">
+        <ArrowUpRight size={15} weight="bold" />
+        <span ref={cursorLabel} />
+      </div>
+      <nav className="scroll-route" aria-label="Page journey">
+        <div className="scroll-route-track" aria-hidden="true">
+          <span style={{ height: `${(activeSection / (scrollRoute.length - 1)) * 100}%` }} />
+        </div>
+        {scrollRoute.map(([id, label], index) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className={activeSection === index ? "active" : ""}
+            aria-label={`Go to ${label} section`}
+            aria-current={activeSection === index ? "location" : undefined}
+            data-cursor="Go"
+          >
+            <Diamond size={activeSection === index ? 11 : 7} weight={activeSection === index ? "fill" : "regular"} />
+            <span className="route-number">{String(index).padStart(2, "0")}</span>
+            <span className="route-label">{label}</span>
+          </a>
+        ))}
+      </nav>
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header">
         <a href="#top" className="brand" aria-label="Imperial Satyendra home"><Image src={logo} alt="Imperial Satyendra" priority /></a>
@@ -90,8 +185,8 @@ export default function ImperialHome() {
           <a href="#stay">Stay</a><a href="#celebrate">Celebrate</a><a href="#dine">Dine</a><a href="#gallery">Gallery</a>
         </nav>
         <div className="header-actions">
-          <button className="text-button" onClick={() => setEnquiryOpen(true)}>Enquire</button>
-          <button className="menu-button" onClick={() => setMenuOpen(true)} aria-label="Open menu"><List size={23} weight="light" /></button>
+          <button className="text-button" data-cursor="Open" onClick={() => setEnquiryOpen(true)}>Enquire</button>
+          <button className="menu-button" data-cursor="Menu" onClick={() => setMenuOpen(true)} aria-label="Open menu"><List size={23} weight="light" /></button>
         </div>
       </header>
 
@@ -104,7 +199,7 @@ export default function ImperialHome() {
             <h1 id="hero-title" className="hero-title"><span>Arrive as a guest.</span><span>Leave with a story.</span></h1>
             <p className="hero-copy">A new expression of gracious hospitality—crafted for unhurried stays, luminous celebrations and moments that deserve to feel imperial.</p>
             <div className="hero-actions">
-              <button className="primary-button" onClick={() => setEnquiryOpen(true)}>Plan your stay <ArrowRight size={18} /></button>
+              <button className="primary-button" data-cursor="Enquire" onClick={() => setEnquiryOpen(true)}>Plan your stay <ArrowRight size={18} /></button>
               <a className="circle-link" href="#arrival" aria-label="Explore Imperial Satyendra"><ArrowDown size={20} /></a>
             </div>
           </div>
@@ -149,7 +244,7 @@ export default function ImperialHome() {
             <p className="eyebrow light">Weddings & celebrations</p>
             <h2 id="celebrate-title">For the day<br />everyone remembers.</h2>
             <p>From intimate rituals to magnificent receptions, discover a wedding venue in Patna designed for heartfelt traditions and unforgettable photographs.</p>
-            <button className="outline-button light" onClick={() => setEnquiryOpen(true)}>Begin planning <ArrowRight size={17} /></button>
+            <button className="outline-button light" data-cursor="Plan" onClick={() => setEnquiryOpen(true)}>Begin planning <ArrowRight size={17} /></button>
           </div>
         </section>
 
@@ -161,7 +256,7 @@ export default function ImperialHome() {
           <div className="dining-copy" data-reveal>
             <p className="eyebrow">Dining</p><h2>Flavours that feel familiar. Plates that feel new.</h2>
             <p>Thoughtful Indian and global cuisine meets warm, intuitive service—whether it is a celebratory dinner, an easy breakfast or a long table with family.</p>
-            <button className="inline-link" onClick={() => setEnquiryOpen(true)}>Reserve a table <ArrowRight size={17} /></button>
+            <button className="inline-link" data-cursor="Reserve" onClick={() => setEnquiryOpen(true)}>Reserve a table <ArrowRight size={17} /></button>
           </div>
         </section>
 
@@ -171,22 +266,22 @@ export default function ImperialHome() {
           <div className="gallery-head" data-reveal>
             <div><p className="eyebrow">A closer look</p><h2>Scenes from<br />Imperial Satyendra.</h2></div>
             <div className="gallery-controls">
-              <button onClick={() => nextImage(-1)} aria-label="Previous gallery image"><ArrowLeft size={20} /></button>
+              <button data-cursor="Previous" onClick={() => nextImage(-1)} aria-label="Previous gallery image"><ArrowLeft size={20} /></button>
               <span>{String(activeImage + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}</span>
-              <button onClick={() => nextImage(1)} aria-label="Next gallery image"><ArrowRight size={20} /></button>
+              <button data-cursor="Next" onClick={() => nextImage(1)} aria-label="Next gallery image"><ArrowRight size={20} /></button>
             </div>
           </div>
           <div className="gallery-stage" aria-live="polite">
             {gallery.map(([src, alt], index) => {
               const offset = (index - activeImage + gallery.length) % gallery.length;
-              return <button className={`gallery-card offset-${offset}`} key={src} onClick={() => setActiveImage(index)} aria-label={`View image ${index + 1}: ${alt}`}>
+              return <button className={`gallery-card offset-${offset}`} data-cursor="View" key={src} onClick={() => setActiveImage(index)} aria-label={`View image ${index + 1}: ${alt}`}>
                 <Image src={src} alt={alt} fill sizes="(max-width: 760px) 76vw, 44vw" />
               </button>;
             })}
           </div>
         </section>
 
-        <section className="patna-story section-pad">
+        <section className="patna-story section-pad" id="patna">
           <div className="patna-visual" data-reveal><Image src="/images/imperial-corridor.png" alt="Architectural corridor inspired by timeless Indian hospitality" fill sizes="(max-width: 800px) 86vw, 38vw" /></div>
           <div className="patna-copy" data-reveal>
             <p className="eyebrow">Hotel in Patna, Bihar</p><h2>At the heart of where Bihar is going.</h2>
@@ -201,7 +296,7 @@ export default function ImperialHome() {
           <div className="finale-copy" data-reveal>
             <p className="eyebrow light">Your invitation</p><h2>There is a story<br />waiting for you here.</h2>
             <p>Tell us what you are planning. We will help shape the beginning.</p>
-            <button className="primary-button gold" onClick={() => setEnquiryOpen(true)}>Enquire now <ArrowRight size={18} /></button>
+            <button className="primary-button gold" data-cursor="Enquire" onClick={() => setEnquiryOpen(true)}>Enquire now <ArrowRight size={18} /></button>
           </div>
         </section>
       </main>
