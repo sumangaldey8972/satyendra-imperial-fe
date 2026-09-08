@@ -19,6 +19,7 @@ const gallery = [
 const scrollRoute = [
   ["top", "Arrival"],
   ["arrival", "Welcome"],
+  ["story", "Our story"],
   ["stay", "Stay"],
   ["celebrate", "Celebrate"],
   ["dine", "Dine"],
@@ -70,6 +71,29 @@ export default function ImperialHome() {
           { y: 0, rotate: index % 2 ? 1.5 : -1.5, opacity: 1, ease: "none",
             scrollTrigger: { trigger: ".rooms-stack", start: `top ${82 - index * 9}%`, end: "bottom 75%", scrub: 1 } },
         );
+      });
+
+      const storyScenes = gsap.utils.toArray<HTMLElement>(".story-scene");
+      gsap.set(storyScenes, { zIndex: (index) => index + 1 });
+      gsap.set(storyScenes.slice(1), { clipPath: "inset(100% 0 0 0)", scale: 1.06 });
+      const firstStoryCopy = storyScenes[0]?.querySelector(".story-copy");
+      if (firstStoryCopy) {
+        gsap.from(firstStoryCopy, {
+          y: 45, opacity: 0, duration: 1,
+          scrollTrigger: { trigger: ".story-journey", start: "top 75%", once: true },
+        });
+      }
+      const storyTimeline = gsap.timeline({
+        scrollTrigger: { trigger: ".story-journey", start: "top top", end: "bottom bottom", scrub: 1 },
+      });
+      storyScenes.slice(1).forEach((scene, index) => {
+        storyTimeline
+          .to(scene, { clipPath: "inset(0% 0 0 0)", scale: 1, duration: 1, ease: "none" }, index)
+          .from(scene.querySelector(".story-copy"), { y: 48, opacity: 0, duration: 0.38, ease: "power2.out" }, index + 0.28);
+      });
+      gsap.to(".story-progress span", {
+        scaleY: 1, ease: "none",
+        scrollTrigger: { trigger: ".story-journey", start: "top top", end: "bottom bottom", scrub: true },
       });
     }, root);
 
@@ -215,6 +239,69 @@ export default function ImperialHome() {
           <div className="arrival-frame">
             <Image src="/images/imperial-arrival-hall.png" alt="Sunlit arched lobby and lounge at Imperial Satyendra" fill sizes="(max-width: 800px) 88vw, 58vw" />
             <div className="image-caption"><span>01</span> A warm welcome, beautifully composed</div>
+          </div>
+        </section>
+
+        <section className="story" id="story" aria-labelledby="story-title">
+          <div className="story-intro section-pad" data-reveal>
+            <p className="eyebrow">The Imperial rhythm</p>
+            <h2 id="story-title">One stay.<br />Five moments.</h2>
+            <p>Move through a day shaped by thoughtful service, beautiful spaces and the generous spirit of Patna.</p>
+          </div>
+          <div className="story-journey">
+            <div className="story-pin">
+              <div className="story-progress" aria-hidden="true"><span /></div>
+
+              <article className="story-scene align-right">
+                <Image src="/images/story-morning-suite.png" alt="Indian couple enjoying breakfast in a sunlit Imperial Satyendra suite" fill sizes="100vw" />
+                <div className="story-copy">
+                  <p className="story-index">01 · Morning</p>
+                  <h3>Wake slowly.</h3>
+                  <p>Spacious rooms, natural light and quiet corners create a restorative stay for couples, families and business travellers visiting Patna.</p>
+                  <span>Rooms & suites</span>
+                </div>
+              </article>
+
+              <article className="story-scene align-left">
+                <Image src="/images/story-welcome-family.png" alt="Hotel host welcoming a multigenerational Indian family in the grand lobby" fill sizes="100vw" />
+                <div className="story-copy">
+                  <p className="story-index">02 · Welcome</p>
+                  <h3>Feel expected.</h3>
+                  <p>From a smooth family arrival to local guidance for exploring Bihar’s capital, service is warm, personal and naturally attentive.</p>
+                  <span>Patna hospitality</span>
+                </div>
+              </article>
+
+              <article className="story-scene align-left">
+                <Image src="/images/story-afternoon-dining.png" alt="Chef finishing a contemporary Indian dish at Imperial Satyendra" fill sizes="100vw" />
+                <div className="story-copy">
+                  <p className="story-index">03 · Afternoon</p>
+                  <h3>Taste the craft.</h3>
+                  <p>Contemporary Indian cooking and familiar favourites come together for elegant lunches, family tables and private dining in Patna.</p>
+                  <span>Restaurant & dining</span>
+                </div>
+              </article>
+
+              <article className="story-scene align-left">
+                <Image src="/images/story-wedding-arrival.png" alt="Bride arriving with family at an elegant courtyard wedding in Patna" fill sizes="100vw" />
+                <div className="story-copy">
+                  <p className="story-index">04 · Golden hour</p>
+                  <h3>Make it yours.</h3>
+                  <p>Versatile celebration spaces and considered planning support ceremonies, receptions and destination weddings rooted in family tradition.</p>
+                  <span>Weddings & events</span>
+                </div>
+              </article>
+
+              <article className="story-scene align-right story-night">
+                <Image src="/images/story-moonlit-balcony.png" alt="Guest overlooking the moonlit Imperial Satyendra courtyard at night" fill sizes="100vw" />
+                <div className="story-copy">
+                  <p className="story-index">05 · Night</p>
+                  <h3>Hold onto the feeling.</h3>
+                  <p>When the celebration softens and Patna settles into the evening, calm spaces invite you to linger for one more unhurried moment.</p>
+                  <span>The day, beautifully complete</span>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 

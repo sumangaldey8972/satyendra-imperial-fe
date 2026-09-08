@@ -12,6 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       `${siteUrl}/images/imperial-suite.png`,
       `${siteUrl}/images/imperial-celebration.png`,
       `${siteUrl}/images/imperial-dining.png`,
+      `${siteUrl}/images/story-morning-suite.png`,
+      `${siteUrl}/images/story-welcome-family.png`,
+      `${siteUrl}/images/story-afternoon-dining.png`,
+      `${siteUrl}/images/story-wedding-arrival.png`,
+      `${siteUrl}/images/story-moonlit-balcony.png`,
     ],
   }];
 }
