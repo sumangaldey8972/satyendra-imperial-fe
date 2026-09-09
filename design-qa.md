@@ -23,6 +23,7 @@
 | Gallery | Passed after fix | Direct anchor navigation initially left cards at zero opacity. The conflicting entrance animation was removed; cards now render immediately and the 3D carousel remains animated through state transitions. |
 | Scroll route | Passed after fix | The route follows the reference’s elevator-like journey language, exposes nine clickable stops including the new story, advances its gold progress line, and reports the active location accessibly. A tablet collision with the gallery arrow was fixed by stacking the gallery heading and controls below 700px. |
 | Custom cursor | Passed | Phosphor arrow icon, antique-gold hover state and contextual labels match the brand system without introducing a raster placeholder. Native cursor behavior is retained for text fields, touch devices and reduced-motion users. |
+| Brand logo | Passed after fix | The supplied gold artwork is preserved pixel-for-pixel while its black JPEG background is removed into a genuine alpha channel. A tightly cropped PNG now blends cleanly with the transparent photo navbar and dark footer at desktop and mobile breakpoints. |
 | Five-chapter story | Passed after fix | Five newly generated 1536 × 1024 photographs form a coherent morning-to-night sequence. The full-screen pinned stage, upward image wipes, changing editorial copy and internal gold progress line preserve the selected direction’s cinematic rhythm. A missing-target GSAP warning was fixed before final capture. |
 | Finale | Passed | Blue-hour exterior, centered invitation and dark footer provide the intended cinematic ending. |
 
@@ -32,6 +33,7 @@
 - Spacing and layout rhythm: the slim fixed route sits outside the main reading column; 1280px and 633px captures show no horizontal overflow. Gallery controls reflow before colliding with the rail.
 - Colors and tokens: cursor and active route states reuse the existing `--gold`, `--ink` and ivory system, with sufficient contrast over both photography and paper sections.
 - Image quality and asset fidelity: existing generated hotel imagery remains untouched and sharp. New controls use the installed Phosphor icon system rather than custom SVG or CSS illustration.
+- Logo fidelity: `app/asset/satyendra-imperial-logo.png` retains the supplied emblem, typography, gold tonal variation and ornament; only background pixels were converted to transparency. The original JPEG remains untouched as the source asset.
 - Story image set: `story-morning-suite.png`, `story-welcome-family.png`, `story-afternoon-dining.png`, `story-wedding-arrival.png` and `story-moonlit-balcony.png` are all new assets generated specifically for this sequence. None reuse the existing room, dining, wedding or finale photography.
 - Copy and content: route names mirror the actual semantic sections and contextual cursor verbs describe the available action.
 
@@ -49,6 +51,8 @@
 3. Post-fix evidence — Final 1280 × 720 capture showed zero horizontal overflow, `#gallery` in the URL, “Go to Gallery section” active, and no browser console errors.
 4. P2 — The initial story build queried `.story-scene:first-child`, but the persistent progress element was the first child, producing a missing-target GSAP warning. Fixed by resolving the first story scene from the measured scene collection and conditionally animating its copy node.
 5. Post-fix evidence — Fresh tab 10 loaded all five of five story images, reported zero horizontal overflow, retained “Go to Our story section” as the active route across the pinned journey and produced no browser warnings or errors.
+6. P2 — The supplied logo carried a black rectangle that visibly conflicted with the transparent navbar and surrounding footer color. A strict ImageGen extraction was rejected because it altered the artwork and introduced a glow. The final asset was instead derived from the supplied pixels with a real alpha channel, preserving the original identity.
+7. Post-fix evidence — Fresh tab 11 at 1280 × 720 and 513 × 884 showed the transparent gold mark blending directly over the hero photograph and footer surface, with no rectangle, crop, overflow or illegible lettering.
 
 ## Functional and quality checks
 

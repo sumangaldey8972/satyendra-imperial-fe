@@ -6,7 +6,7 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarBlank, CheckCir
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import logo from "../asset/satyendra_imperial_logo.jpeg";
+import logo from "../asset/satyendra-imperial-logo.png";
 
 const gallery = [
   ["/images/imperial-arrival-hall.png", "Grand arched arrival hall at Imperial Satyendra"],
@@ -68,8 +68,10 @@ export default function ImperialHome() {
       gsap.utils.toArray<HTMLElement>(".room-card").forEach((card, index) => {
         gsap.fromTo(card,
           { y: 120 + index * 35, rotate: index % 2 ? 5 : -5, opacity: 0.25 },
-          { y: 0, rotate: index % 2 ? 1.5 : -1.5, opacity: 1, ease: "none",
-            scrollTrigger: { trigger: ".rooms-stack", start: `top ${82 - index * 9}%`, end: "bottom 75%", scrub: 1 } },
+          {
+            y: 0, rotate: index % 2 ? 1.5 : -1.5, opacity: 1, ease: "none",
+            scrollTrigger: { trigger: ".rooms-stack", start: `top ${82 - index * 9}%`, end: "bottom 75%", scrub: 1 }
+          },
         );
       });
 
