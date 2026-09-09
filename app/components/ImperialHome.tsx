@@ -208,7 +208,7 @@ export default function ImperialHome() {
       <header className="site-header">
         <a href="#top" className="brand" aria-label="Imperial Satyendra home"><Image src={logo} alt="Imperial Satyendra" priority /></a>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#stay">Stay</a><a href="#celebrate">Celebrate</a><a href="#dine">Dine</a><a href="#gallery">Gallery</a>
+          <a href="/stay">Stay</a><a href="#celebrate">Celebrate</a><a href="#dine">Dine</a><a href="#gallery">Gallery</a>
         </nav>
         <div className="header-actions">
           <button className="text-button" data-cursor="Open" onClick={() => setEnquiryOpen(true)}>Enquire</button>
@@ -392,14 +392,14 @@ export default function ImperialHome() {
 
       <footer>
         <div className="footer-brand"><Image src={logo} alt="Imperial Satyendra" /><p>Stay beautifully. Celebrate grandly.</p></div>
-        <div className="footer-links"><a href="#stay">Stay</a><a href="#celebrate">Celebrate</a><a href="#dine">Dine</a><a href="#gallery">Gallery</a></div>
+        <div className="footer-links"><a href="/stay">Stay</a><a href="#celebrate">Celebrate</a><a href="#dine">Dine</a><a href="#gallery">Gallery</a></div>
         <p className="footer-location">Patna, Bihar, India</p>
         <p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
-        <nav>{[["Stay", "#stay"], ["Celebrate", "#celebrate"], ["Dine", "#dine"], ["Gallery", "#gallery"]].map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
+        <nav>{[["Stay", "/stay"], ["Celebrate", "#celebrate"], ["Dine", "#dine"], ["Gallery", "#gallery"]].map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Make an enquiry</button>
       </div>
 

@@ -74,4 +74,54 @@
 - The visual source is a concept montage rather than a pixel-measured UI specification. The implementation preserves its composition, tone and storytelling system while adding production navigation, a responsive enquiry flow, search metadata and accessible controls.
 - Exact contact details, street address, pricing and room inventory are deliberately omitted until supplied by the client; this avoids publishing unverifiable business information.
 
+## Stay page QA
+
+### Comparison set
+
+- Source visual truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-ee82fa6e-5ef7-4273-8e08-ff5db535a4e8.png`, the selected Imperial Satyendra ivory editorial direction used by the homepage.
+- Source pixels: 793 × 1981.
+- Implementation: `http://localhost:3000/stay` in Codex in-app Browser tab 11.
+- Implementation evidence: desktop captures at `1280 × 720` and mobile captures at an effective `354 × 844` CSS viewport, device density 1.
+- States captured: hero after entrance motion, guest-choice grid, pinned afternoon story frame, stacked gallery before and after next-image interaction, FAQ closed and expanded, enquiry CTA, full form, success state, and mobile gallery layout.
+- Normalization: this is an extension of the selected visual system rather than a pixel clone of an existing Stay screen. Comparison therefore uses the same editorial hierarchy, palette, photographic language, spacing rhythm, image stacking and motion behavior at matching desktop and mobile densities.
+
+### Findings
+
+- No P0, P1 or P2 findings remain.
+- P3 follow-up: replace the neutral room-use categories with confirmed room names, sizes, occupancy and facilities when the client supplies them. The current page deliberately avoids presenting unverified inventory as fact.
+
+### Required fidelity surfaces
+
+- Fonts and typography: Cormorant Garamond remains the display face and Manrope remains the plain body face. Desktop and mobile captures preserve clear heading hierarchy, readable line lengths and simple language without truncation.
+- Spacing and layout rhythm: desktop uses the established editorial grid and large section breathing room. Mobile collapses every split layout to one column, reports zero horizontal overflow and reserves space beside the fixed route rail.
+- Colors and visual tokens: existing ivory, paper, ink and antique-gold tokens are reused. Dark room-choice and photo-story sections preserve the homepage rhythm and maintain text contrast.
+- Image quality and asset fidelity: five new 1536 × 1024 supporting photographs and one 1855 × 848 hero share the same ivory, walnut, gold and arched-room language. Crops remain useful at both tested breakpoints; no placeholder or CSS-drawn imagery is present.
+- Copy and content: the page uses clear search language such as “hotel rooms in Patna”, “family stays” and “work trips”. Prices, room measurements, facility claims and booking promises are omitted until verified.
+- Icons and states: Phosphor icons match the existing thin-line icon system. Gallery controls, FAQ expansion, form fields, modal close behavior and success state were exercised in the browser.
+
+### Full-view and focused evidence
+
+- Full-view: the Stay hero matches the source’s full-bleed photography, serif-led hierarchy, gold microcopy and restrained navigation while presenting a distinct room-focused subject.
+- Choice grid: one large and two supporting photo cards translate the source’s layered room montage into clear guest needs without generic UI-card styling.
+- Scroll story: the captured afternoon frame confirms full-bleed image quality, readable glass-dark copy surface, upward scene transition and gold progress indicator.
+- Gallery: the active room and bathroom captures confirm correct perspective stacking, image order, control state and counter update from `01 / 04` to `02 / 04`.
+- Responsive: the mobile choice and details captures show no horizontal overflow, no clipped controls and adequate clearance between readable copy and the route rail.
+- Conversion: the room enquiry opens from the final CTA, fits the desktop viewport, exposes labelled fields, prevents empty submission and reaches a clear local success state.
+
+### Comparison history
+
+1. P2 — At 1280 × 720, the first hero version used a fixed 940px height, placing the primary room CTA below the first fold. Fixed by using a `100svh` hero with a 720px minimum. Post-fix capture shows the complete heading, description and both actions.
+2. P2 — At the mobile details anchor, the fixed route rail covered the final words of the descriptive paragraph. Fixed by reserving right padding for details and FAQ copy below 620px. Post-fix capture shows the paragraph fully readable beside the rail.
+3. P2 — The first enquiry layout required scrolling before its submit action was visible at 1280 × 720. Fixed by reducing only the Stay form’s vertical padding, heading size and control spacing. Post-fix capture shows the complete form and submit button in one view.
+4. Post-fix evidence — Browser console warnings/errors: none. Gallery counter changed correctly, FAQ expanded, test submission reached the local success state, and effective 354px mobile viewport reported `scrollWidth === innerWidth`.
+
+### Functional and technical checks
+
+- `/stay` is statically generated with a unique canonical title, description, keywords, Open Graph data and Twitter image.
+- Hotel, breadcrumb and FAQ JSON-LD are present and avoid unverified room details.
+- `/stay` and all six Stay photographs are included in `sitemap.xml`.
+- Homepage desktop, footer and mobile-menu Stay links now open `/stay`.
+- Reduced-motion users receive a normal stacked story instead of a pinned animated sequence.
+- ESLint passes, production build passes and the route appears in the static build output.
+
 final result: passed
