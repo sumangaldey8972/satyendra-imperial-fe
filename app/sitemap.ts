@@ -34,5 +34,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
         `${siteUrl}/images/stay-evening-room.png`,
       ],
     },
+    {
+      url: `${siteUrl}/celebrate`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: .9,
+      images: [
+        `${siteUrl}/images/celebrate-hero-arrival.jpg`,
+        `${siteUrl}/images/celebrate-planning.jpg`,
+        `${siteUrl}/images/celebrate-family-arrival.jpg`,
+        `${siteUrl}/images/celebrate-ceremony.jpg`,
+        `${siteUrl}/images/celebrate-reception-night.jpg`,
+      ],
+    },
   ];
 }

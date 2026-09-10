@@ -124,4 +124,38 @@
 - Reduced-motion users receive a normal stacked story instead of a pinned animated sequence.
 - ESLint passes, production build passes and the route appears in the static build output.
 
+## Celebrate page QA
+
+### Comparison set
+
+- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-9f4d1b57-2d1d-4470-bd15-b43dd0316b28.png`, the selected option 1 ivory celebration journey.
+- Implementation: `http://localhost:3001/celebrate?qa=final` in the Codex in-app Browser.
+- Implementation evidence: desktop review at `1440 × 1000` and mobile review at `390 × 844`, with the source and implementation compared for hierarchy, palette, photography, editorial rhythm, image stacking and scroll storytelling.
+- States checked: hero after entrance motion, all four story chapters, gallery before and after navigation, FAQ expanded, mobile menu open, enquiry form validation, and local success state.
+
+### Findings
+
+- No P0, P1 or P2 visual or functional findings remain.
+- P3 launch follow-up: replace the local demonstration submission with the client's enquiry service and add verified telephone, address and capacity details when supplied.
+
+### Visual and interaction match
+
+- The source's ivory editorial mood is carried into a full-screen wedding arrival, quiet paper sections, a central gold story thread, alternating photography and a dark closing enquiry scene.
+- Five new photographs form one coherent celebration from planning and family arrival through the ceremony and night reception. They are purpose-generated assets, not reused homepage photographs.
+- The story chapters reveal on scroll, while reduced-motion users receive a stable stacked layout.
+- The gallery uses five layered photo cards with working previous, next and direct-select controls. A conflicting card entrance animation found during QA was removed so direct section navigation never leaves the images hidden.
+- Desktop navigation, mobile menu, fixed route rail, custom cursor states, FAQ accordion and enquiry modal follow the existing Imperial Satyendra interaction language.
+- Both tested viewports have no horizontal overflow. Typography, button sizing, image crops and route-rail clearance remain readable on mobile.
+
+### Functional and technical checks
+
+- All fourteen rendered images report successful natural dimensions after the lazy-loaded sections enter the viewport.
+- The enquiry form enforces its required fields and reaches the intended local success state with test data.
+- The canonical URL resolves to `https://www.imperialsatyendra.com/celebrate`.
+- Event venue, breadcrumb and FAQ structured data are included without invented contact, pricing or capacity claims.
+- `/celebrate` and its five JPEG photographs are included in `sitemap.xml`; navigation links from the homepage and Stay page point to the new route.
+- Browser console warnings/errors: none.
+- ESLint passes.
+- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/robots.txt` and `/sitemap.xml`.
+
 final result: passed
