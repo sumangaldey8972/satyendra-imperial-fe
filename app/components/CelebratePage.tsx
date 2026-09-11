@@ -242,7 +242,7 @@ export default function CelebratePage() {
       <header className="site-header">
         <Link href="/" className="brand" aria-label="Imperial Satyendra home"><Image src={logo} alt="Imperial Satyendra" priority /></Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <Link href="/stay">Stay</Link><Link className="nav-active" href="/celebrate">Celebrate</Link><Link href="/#dine">Dine</Link><Link href="/#gallery">Gallery</Link>
+          <Link href="/stay">Stay</Link><Link className="nav-active" href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/#gallery">Gallery</Link>
         </nav>
         <div className="header-actions">
           <button className="text-button" data-cursor="Plan" onClick={() => setEnquiryOpen(true)}>Plan your celebration</button>
@@ -337,13 +337,13 @@ export default function CelebratePage() {
 
       <footer>
         <div className="footer-brand"><Link href="/"><Image src={logo} alt="Imperial Satyendra" /></Link><p>Stay beautifully. Celebrate grandly.</p></div>
-        <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/#dine">Dine</Link><Link href="/#gallery">Gallery</Link></div>
+        <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/#gallery">Gallery</Link></div>
         <p className="footer-location">Patna, Bihar, India</p><p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
-        <nav><Link href="/stay">Stay</Link><Link href="/celebrate" onClick={() => setMenuOpen(false)}>Celebrate</Link><Link href="/#dine">Dine</Link><Link href="/#gallery">Gallery</Link></nav>
+        <nav><Link href="/stay">Stay</Link><Link href="/celebrate" onClick={() => setMenuOpen(false)}>Celebrate</Link><Link href="/dine">Dine</Link><Link href="/#gallery">Gallery</Link></nav>
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Plan your celebration</button>
       </div>
 

@@ -47,5 +47,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
         `${siteUrl}/images/celebrate-reception-night.jpg`,
       ],
     },
+    {
+      url: `${siteUrl}/dine`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: .9,
+      images: [
+        `${siteUrl}/images/dine-hero.jpg`,
+        `${siteUrl}/images/dine-breakfast.jpg`,
+        `${siteUrl}/images/dine-lunch.jpg`,
+        `${siteUrl}/images/dine-tea.jpg`,
+        `${siteUrl}/images/dine-dinner.jpg`,
+        `${siteUrl}/images/dine-chef.jpg`,
+        `${siteUrl}/images/dine-feast.jpg`,
+      ],
+    },
   ];
 }

@@ -158,4 +158,44 @@
 - ESLint passes.
 - Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/robots.txt` and `/sitemap.xml`.
 
+## Dine page QA
+
+### Comparison set
+
+- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-9dca4df2-ff5d-420c-bc34-39f4b24f7a16.png`, the selected option 3 ivory editorial dining journey.
+- Implementation: `http://localhost:3001/dine?qa=final` in Codex in-app Browser.
+- Implementation evidence: focused desktop review at an effective `1280 × 720` viewport and mobile review at `390 × 844`.
+- States checked: hero, four meal chapters, chef story, shared-table scene, stacked gallery before and after navigation, FAQ expanded, mobile menu, reservation form, and local success state.
+- Normalization: the source is a tall concept montage, so focused viewport captures were compared for hierarchy, palette, image crops, editorial rhythm and scroll storytelling. A browser full-page stitch distorted fixed and parallax layers and was not used as fidelity evidence.
+
+### Findings
+
+- No P0, P1 or P2 visual or functional findings remain.
+- P3 launch follow-up: connect the reservation form to the client's service and add only verified menu items, hours, telephone and address details when supplied.
+
+### Visual and content fidelity
+
+- Cormorant Garamond display type, Manrope body type, ivory paper, deep brown surfaces and antique-gold details match the established Imperial Satyendra system.
+- Seven purpose-generated dining photographs form one visual day from breakfast through dinner, kitchen preparation and a shared Indian meal. No homepage or celebration photographs are reused.
+- The four meal chapters alternate image and copy, reveal through a continuous gold story line, and remain readable beside the fixed route rail on mobile.
+- The chef section uses layered popup photographs; the feast image supplies a cinematic full-width transition; and the gallery uses five stacked photographs with working previous, next and direct-select controls.
+- Copy uses plain phrases such as “restaurant and dining in Patna”, “breakfast”, “lunch”, “evening tea”, “dinner” and “family meal”. It avoids unverified claims, prices, opening hours and menu promises.
+
+### Comparison history
+
+1. P2 — Large source PNGs stalled the development image optimizer. Fixed by producing high-quality JPEG delivery assets while retaining the generated source masters. All meaningful images loaded during the full route pass.
+2. P2 — The first mobile hero title approached the fixed route rail. Fixed by narrowing the hero copy area and reducing the mobile title scale. The `390 × 844` post-fix capture shows the complete title, paragraph and CTA without overlap.
+3. P2 — Direct navigation to the dinner chapter produced a development LCP warning for its duplicated image. Fixed by eagerly loading the relevant dinner assets. The final fresh-page browser pass is clean.
+
+### Functional and technical checks
+
+- `/dine` has unique title, description, simple keywords, canonical metadata, Open Graph data and a Twitter image.
+- Restaurant, hotel-parent, breadcrumb and FAQ structured data are included without invented business details.
+- `/dine` and all seven dining JPEGs are included in `sitemap.xml`; Dine links across the existing homepage, Stay and Celebrate navigation point to the route.
+- The mobile menu, custom cursor states, route rail, gallery controls, FAQ accordion and reservation dialog all work. A completed test reservation reaches the intended local success state.
+- Reduced-motion users receive stable, readable layouts without pinned or scrubbed animation.
+- Both tested viewports report no horizontal overflow.
+- ESLint passes.
+- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/dine`, `/robots.txt` and `/sitemap.xml`.
+
 final result: passed
