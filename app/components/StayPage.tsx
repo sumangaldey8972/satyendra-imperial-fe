@@ -221,7 +221,7 @@ export default function StayPage() {
           <Link className="nav-active" href="/stay">Stay</Link>
           <Link href="/celebrate">Celebrate</Link>
           <Link href="/dine">Dine</Link>
-          <Link href="/#gallery">Gallery</Link>
+          <Link href="/gallery">Gallery</Link>
         </nav>
         <div className="header-actions">
           <button className="text-button" data-cursor="Open" onClick={() => setEnquiryOpen(true)}>Ask about rooms</button>
@@ -351,14 +351,14 @@ export default function StayPage() {
 
       <footer>
         <div className="footer-brand"><Link href="/"><Image src={logo} alt="Imperial Satyendra" /></Link><p>Stay beautifully. Celebrate grandly.</p></div>
-        <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/#gallery">Gallery</Link></div>
+        <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></div>
         <p className="footer-location">Patna, Bihar, India</p>
         <p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
-        <nav><Link href="/stay" onClick={() => setMenuOpen(false)}>Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/#gallery">Gallery</Link></nav>
+        <nav><Link href="/stay" onClick={() => setMenuOpen(false)}>Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></nav>
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Ask about rooms</button>
       </div>
 

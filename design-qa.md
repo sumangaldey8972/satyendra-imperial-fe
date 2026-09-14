@@ -198,4 +198,59 @@
 - ESLint passes.
 - Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/dine`, `/robots.txt` and `/sitemap.xml`.
 
+## Gallery page QA
+
+### Comparison set
+
+- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-1caab98b-0b2e-433e-9177-f2414f1c3ddc.png`, the selected option 3 curated-album direction.
+- Source pixels: `748 × 2103`.
+- Implementation: `http://localhost:3001/gallery?qa=final` in Codex in-app Browser tab 18.
+- Implementation screenshot evidence: browser-managed focused captures from tab 18 at an effective `1309 × 909` desktop viewport and `354 × 844` mobile CSS viewport. The browser integration does not expose a filesystem path for these captures.
+- Final user-facing viewport: `1280 × 720` with the hero photographs loaded and no horizontal overflow.
+- States checked: hero, sticky category index, all five photo chapters, full album mosaic, mobile menu, mobile and desktop lightbox, next/previous photo controls, enquiry form, and local success state.
+- Normalization: the long concept montage was compared through focused captures at the same section and interaction state; fixed route controls and browser chrome were excluded from layout judgments where appropriate.
+
+### Findings
+
+- No P0, P1 or P2 visual or functional findings remain.
+- P3 launch follow-up: replace demonstration enquiry handling with the client's service and add only verified contact details or venue information when supplied.
+
+### Required fidelity surfaces
+
+- Fonts and typography: Cormorant Garamond and Manrope preserve the reference's editorial serif and plain sans-serif pairing. The desktop hero now keeps the selected two-line title, while the mobile title wraps without colliding with the route rail.
+- Spacing and layout rhythm: the five chapters use a clear copy-and-photo grid on desktop and a readable stacked order on mobile. The sticky category index, wide ivory sections, dark architecture interlude and closing night image follow the selected album rhythm.
+- Colors and visual tokens: existing ivory, paper, charcoal and antique-gold tokens are reused. Text and controls retain clear contrast in the dark chapter, lightbox and finale.
+- Image quality and asset fidelity: sixteen real project photographs cover architecture, rooms, celebrations, food and guest moments. Lighter JPEG delivery copies were created for older PNG sources that stalled during direct mobile navigation; no placeholder, CSS-drawn or invented visual asset remains.
+- Copy and content: simple search phrases such as “hotel photos Patna”, “rooms”, “wedding celebrations”, “restaurant dining” and “hotel gallery” are used naturally. Prices, ratings, awards, capacities and unverified contact details are not published.
+
+### Full-view and focused evidence
+
+- Hero: the final desktop capture matches the selected source's ivory canvas, oversized two-line serif title and three fanned photographs, with the original transparent logo and restrained navigation.
+- Chapters: focused Rooms and Architecture captures confirm the numbered editorial copy, overlapping photo fan, ivory-to-dark contrast shift and readable captions.
+- Album: the mobile mosaic capture shows the full three-column contact-sheet structure, clear CTA and no clipped content.
+- Lightbox: mobile evidence shows the selected portrait image, `03 / 16` counter, readable caption, close control and previous/next actions in one viewport.
+- Conversion: the mobile enquiry form fits the viewport, its close control remains visible on paper, required fields accept realistic test data and submission reaches the local success state.
+
+### Comparison history
+
+1. P2 — The original `1000px` layout breakpoint stacked chapter text and photographs too early in the normal in-app desktop viewport, creating a large empty area. Fixed by moving the stack breakpoint to `820px`; post-fix desktop evidence shows copy and fanned photographs together.
+2. P2 — Direct mobile category jumps initially showed blank frames while several large legacy PNGs were being optimized. Fixed by creating high-quality JPEG delivery copies and updating Gallery references. All fifteen chapter images now report successful natural dimensions.
+3. P2 — The first wide desktop hero wrapped “Every corner” onto separate lines. Fixed by balancing the hero columns and reducing the fluid display-size rate. Post-fix evidence shows the selected two-line title.
+4. P2 — The first mobile enquiry capture used a white close control against the ivory form. Fixed with Gallery-specific ink, border and background styles.
+5. P2 — The first clean console pass found zero-height warnings for implicit mosaic rows and duplicate hero-image LCP warnings. Fixed with explicit grid auto rows and consistent eager loading for repeated above-the-fold sources. The final fresh-tab console check reports no warnings or errors.
+
+### Functional and technical checks
+
+- The sticky category index and the nine-stop scroll route navigate to the expected sections.
+- The sixteen-photo lightbox opens from hero cards, chapter cards and the mosaic; previous, next, close and keyboard arrow/Escape controls work.
+- The mobile menu opens and exposes all primary routes.
+- The enquiry form accepts name, phone, email, interest and message fields and reaches the intended local success state.
+- All chapter and mosaic images load successfully, and desktop and mobile checks report no horizontal overflow.
+- `/gallery` includes a unique canonical title, description, simple keywords, Open Graph image, Twitter image, ImageGallery structured data and breadcrumb structured data.
+- `/gallery` and its representative photographs are included in `sitemap.xml`; Gallery links across Home, Stay, Celebrate and Dine now point to the dedicated route.
+- Reduced-motion users receive stable photo clusters without entrance movement.
+- Browser console warnings/errors: none in the final fresh-tab pass.
+- ESLint passes.
+- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/dine`, `/gallery`, `/robots.txt` and `/sitemap.xml`.
+
 final result: passed

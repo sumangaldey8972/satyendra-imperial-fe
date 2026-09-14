@@ -62,5 +62,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
         `${siteUrl}/images/dine-feast.jpg`,
       ],
     },
+    {
+      url: `${siteUrl}/gallery`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: .9,
+      images: [
+        `${siteUrl}/images/imperial-courtyard-day.jpg`,
+        `${siteUrl}/images/stay-hero-room.jpg`,
+        `${siteUrl}/images/imperial-suite.jpg`,
+        `${siteUrl}/images/celebrate-ceremony.jpg`,
+        `${siteUrl}/images/celebrate-family-arrival.jpg`,
+        `${siteUrl}/images/dine-hero.jpg`,
+        `${siteUrl}/images/dine-lunch.jpg`,
+        `${siteUrl}/images/imperial-courtyard-night.jpg`,
+        `${siteUrl}/images/imperial-arrival-hall.jpg`,
+        `${siteUrl}/images/story-welcome-family.jpg`,
+        `${siteUrl}/images/story-wedding-arrival.jpg`,
+      ],
+    },
   ];
 }
