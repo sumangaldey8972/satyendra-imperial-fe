@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarBlank, CheckCircle, Diamond, List, MapPin, Quotes, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
+import { useEnquiryForm } from "../lib/useEnquiryForm";
+import PhoneField from "./PhoneField";
 
 const gallery = [
   ["/images/imperial-arrival-hall.png", "Grand arched arrival hall at Imperial Satyendra"],
@@ -34,7 +36,7 @@ export default function ImperialHome() {
   const cursorLabel = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { submitted, submitting, submitError, handleSubmit, resetSubmission } = useEnquiryForm("home");
   const [activeImage, setActiveImage] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
 
@@ -404,19 +406,22 @@ export default function ImperialHome() {
       </div>
 
       <div className={`enquiry-overlay ${enquiryOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Plan your Imperial Satyendra visit">
-        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }} aria-label="Close enquiry"><X size={24} /></button>
+        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); resetSubmission(); }} aria-label="Close enquiry"><X size={24} /></button>
         {submitted ? <div className="success-state">
           <CheckCircle size={48} weight="thin" /><p className="eyebrow">Thank you</p><h2>Your story starts here.</h2>
-          <p>Your enquiry has been noted in this preview. Connect the live booking endpoint before launch to receive submissions.</p>
-          <button className="primary-button" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }}>Return to the hotel</button>
-        </div> : <form onSubmit={(event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitted(true); }}>
+          <p>Your enquiry has been sent to the Imperial Satyendra team. They will contact you using the details you provided.</p>
+          <button className="primary-button" onClick={() => { setEnquiryOpen(false); resetSubmission(); }}>Return to the hotel</button>
+        </div> : <form onSubmit={handleSubmit}>
           <p className="eyebrow">Enquire</p><h2>What brings you to Imperial Satyendra?</h2>
           <label>Name<input required name="name" autoComplete="name" /></label>
+          <PhoneField />
           <label>Email<input required type="email" name="email" autoComplete="email" /></label>
           <label>Planning for<select name="interest" defaultValue="stay"><option value="stay">A stay in Patna</option><option value="wedding">A wedding or celebration</option><option value="dining">A dining experience</option><option value="event">A private event</option></select></label>
           <label>Tell us a little more<textarea name="message" rows={3} /></label>
-          <button className="primary-button" type="submit">Send enquiry <ArrowRight size={18} /></button>
-          <small>Demo form — booking integration will be connected for launch.</small>
+          <label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+          {submitError && <p className="enquiry-form-error" role="alert">{submitError}</p>}
+          <button className="primary-button" type="submit" disabled={submitting}>{submitting ? "Sending..." : "Send enquiry"} {!submitting && <ArrowRight size={18} />}</button>
+          <small>The Imperial Satyendra team will receive this enquiry by email.</small>
         </form>}
       </div>
     </div>

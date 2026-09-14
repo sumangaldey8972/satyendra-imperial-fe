@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle, Diamond, Images, List, MapPin, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
+import { useEnquiryForm } from "../lib/useEnquiryForm";
+import PhoneField from "./PhoneField";
 
 type GalleryPhoto = { src: string; alt: string; caption: string };
 type GalleryChapter = { id: string; number: string; label: string; title: string; copy: string; photos: GalleryPhoto[]; dark?: boolean };
@@ -53,7 +55,7 @@ export default function GalleryPage() {
   const [activeSection, setActiveSection] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { submitted, submitting, submitError, handleSubmit, resetSubmission } = useEnquiryForm("gallery");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -133,6 +135,6 @@ export default function GalleryPage() {
 
     {lightboxIndex !== null && <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Photograph viewer"><button className="gallery-lightbox-close" onClick={() => setLightboxIndex(null)} aria-label="Close photograph"><X size={25}/></button><button className="gallery-lightbox-arrow previous" onClick={() => movePhoto(-1)} aria-label="Previous photograph" data-cursor="Previous"><ArrowLeft size={28}/></button><figure><div><Image src={allPhotos[lightboxIndex].src} alt={allPhotos[lightboxIndex].alt} fill sizes="92vw" priority/></div><figcaption><span>{String(lightboxIndex+1).padStart(2,"0")} / {String(allPhotos.length).padStart(2,"0")}</span><p>{allPhotos[lightboxIndex].category}</p><strong>{allPhotos[lightboxIndex].caption}</strong></figcaption></figure><button className="gallery-lightbox-arrow next" onClick={() => movePhoto(1)} aria-label="Next photograph" data-cursor="Next"><ArrowRight size={28}/></button></div>}
 
-    <div className={`enquiry-overlay ${enquiryOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Plan a visit to Imperial Satyendra"><button className="close-dialog" onClick={() => {setEnquiryOpen(false);setSubmitted(false);}} aria-label="Close enquiry"><X size={24}/></button>{submitted ? <div className="success-state"><CheckCircle size={48} weight="thin"/><p className="eyebrow">Thank you</p><h2>We have your enquiry.</h2><p>Your request has been noted in this preview. Connect the hotel enquiry service before launch to receive submissions.</p><button className="primary-button" onClick={() => {setEnquiryOpen(false);setSubmitted(false);}}>Return to the gallery</button></div> : <form onSubmit={(event:FormEvent<HTMLFormElement>) => {event.preventDefault();setSubmitted(true);}}><p className="eyebrow">Plan your visit</p><h2>How can we help?</h2><div className="gallery-form-row"><label>Name<input name="name" required autoComplete="name"/></label><label>Phone number<input name="phone" type="tel" required autoComplete="tel"/></label></div><div className="gallery-form-row"><label>Email<input name="email" type="email" autoComplete="email"/></label><label>I am interested in<select name="interest"><option>A hotel stay</option><option>A celebration</option><option>Restaurant dining</option><option>Something else</option></select></label></div><label>Tell us a little more<textarea name="message" rows={3}/></label><button className="primary-button" type="submit">Send enquiry <ArrowRight size={17}/></button><small>Demo form — connect the hotel enquiry service before launch.</small></form>}</div>
+    <div className={`enquiry-overlay ${enquiryOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Plan a visit to Imperial Satyendra"><button className="close-dialog" onClick={() => {setEnquiryOpen(false);resetSubmission();}} aria-label="Close enquiry"><X size={24}/></button>{submitted ? <div className="success-state"><CheckCircle size={48} weight="thin"/><p className="eyebrow">Thank you</p><h2>We have your enquiry.</h2><p>Your enquiry has been sent to the Imperial Satyendra team. They will contact you using the details you provided.</p><button className="primary-button" onClick={() => {setEnquiryOpen(false);resetSubmission();}}>Return to the gallery</button></div> : <form onSubmit={handleSubmit}><p className="eyebrow">Plan your visit</p><h2>How can we help?</h2><div className="gallery-form-row"><label>Name<input name="name" required autoComplete="name"/></label><PhoneField /></div><div className="gallery-form-row"><label>Email<input name="email" type="email" autoComplete="email"/></label><label>I am interested in<select name="interest"><option>A hotel stay</option><option>A celebration</option><option>Restaurant dining</option><option>Something else</option></select></label></div><label>Tell us a little more<textarea name="message" rows={3}/></label><label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>{submitError && <p className="enquiry-form-error" role="alert">{submitError}</p>}<button className="primary-button" type="submit" disabled={submitting}>{submitting ? "Sending..." : "Send enquiry"} {!submitting && <ArrowRight size={17}/>}</button><small>The Imperial Satyendra team will receive this enquiry by email.</small></form>}</div>
   </div>;
 }

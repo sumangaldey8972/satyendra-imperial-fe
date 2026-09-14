@@ -1,256 +1,51 @@
-# Imperial Satyendra — Design QA
+# Email Template Design QA
 
-## Comparison set
+## Evidence
 
-- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-ee82fa6e-5ef7-4273-8e08-ff5db535a4e8.png` (selected “Ivory Courtyard” direction)
-- Source pixels: 793 × 1981.
-- Implementation: local Next.js homepage at `http://localhost:3000/`.
-- Implementation screenshot path: Codex in-app Browser tab 10, final visible story capture at `http://localhost:3000/?qa=story-final#story`; gallery capture remains recorded in tab 8.
-- Implementation pixels/CSS viewport: 1280 × 720 at device density 1. A second responsive capture was reviewed at 633 × 884.
-- State: gallery route active, scroll progress at stop 05, custom cursor visible; responsive capture included the custom cursor hover state and route label.
-- Normalization: the source is a tall concept montage and the implementation is a browser viewport. Matching content regions were compared at desktop scale; no density resampling was required.
-- Method: the source visual and live browser captures were viewed together for hierarchy, imagery, palette, typography, spacing, transitions and interaction states.
+- Source visual truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-daf8adb6-eeb0-4c81-b2c7-9d4076f22812.png`
+- Source pixels: 1024 × 1536 RGB.
+- Implementation: development-only browser preview at `http://localhost:3001/api/enquiries?v=2`.
+- Implementation capture: Codex in-app browser screenshot captured inline during QA; browser viewport approximately 948 × 900 CSS pixels at density 1.
+- State: wedding enquiry with name, Indian phone number, email, enquiry type, planning category, received time, message, call action and reply action.
+- Density normalization: responsive email body evaluated at its intended 680px maximum width. Proportions and hierarchy were compared rather than scaling the 1024px concept literally.
 
-## Visual match
+## Full-view comparison
 
-| Area | Result | Notes |
-| --- | --- | --- |
-| Art direction | Passed | Warm ivory, ink and restrained gold system matches the selected direction. |
-| Hero | Passed | Full-bleed architectural image, editorial serif headline, transparent navigation and restrained CTA treatment retain the source hierarchy. |
-| Story rhythm | Passed | Alternating quiet editorial sections and immersive full-bleed moments follow the source’s vertical pacing. |
-| Photography | Passed | All hotel imagery is a coherent generated set; no placeholders or mismatched stock assets remain. |
-| Stacked rooms | Passed | Layered room photography, depth, rotation and seal create the intended 3D storytelling moment. |
-| Gallery | Passed after fix | Direct anchor navigation initially left cards at zero opacity. The conflicting entrance animation was removed; cards now render immediately and the 3D carousel remains animated through state transitions. |
-| Scroll route | Passed after fix | The route follows the reference’s elevator-like journey language, exposes nine clickable stops including the new story, advances its gold progress line, and reports the active location accessibly. A tablet collision with the gallery arrow was fixed by stacking the gallery heading and controls below 700px. |
-| Custom cursor | Passed | Phosphor arrow icon, antique-gold hover state and contextual labels match the brand system without introducing a raster placeholder. Native cursor behavior is retained for text fields, touch devices and reduced-motion users. |
-| Brand logo | Passed after fix | The supplied gold artwork is preserved pixel-for-pixel while its black JPEG background is removed into a genuine alpha channel. A tightly cropped PNG now blends cleanly with the transparent photo navbar and dark footer at desktop and mobile breakpoints. |
-| Five-chapter story | Passed after fix | Five newly generated 1536 × 1024 photographs form a coherent morning-to-night sequence. The full-screen pinned stage, upward image wipes, changing editorial copy and internal gold progress line preserve the selected direction’s cinematic rhythm. A missing-target GSAP warning was fixed before final capture. |
-| Finale | Passed | Blue-hour exterior, centered invitation and dark footer provide the intended cinematic ending. |
+The implementation preserves the selected concept's black logo masthead, ivory body, gold phone emphasis, large serif guest name, immediate call action, ruled detail table, bordered message, reply action and discreet footer. The information order and operational focus match the visual target. The final email is deliberately more compact than the concept so it remains practical in Gmail and Outlook preview panes.
+
+## Focused-region comparison
+
+- Header: the supplied raster logo is embedded without redrawing, on the same black-and-gold treatment as the source.
+- Primary contact block: guest name, grouped `+91` phone number and Call now action retain the source hierarchy and contrast.
+- Details and message: labels, rules, warm neutral palette and serif message treatment match the target closely.
+- Actions: live `tel:` and `mailto:` targets were verified from the browser accessibility tree. They were not activated during QA to avoid placing a call or opening an external email draft.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: Cormorant Garamond and Manrope preserve the source’s high-contrast editorial hierarchy, restrained weights and tracked microcopy. Route labels remain readable without competing with display headings.
-- Spacing and layout rhythm: the slim fixed route sits outside the main reading column; 1280px and 633px captures show no horizontal overflow. Gallery controls reflow before colliding with the rail.
-- Colors and tokens: cursor and active route states reuse the existing `--gold`, `--ink` and ivory system, with sufficient contrast over both photography and paper sections.
-- Image quality and asset fidelity: existing generated hotel imagery remains untouched and sharp. New controls use the installed Phosphor icon system rather than custom SVG or CSS illustration.
-- Logo fidelity: `app/asset/satyendra-imperial-logo.png` retains the supplied emblem, typography, gold tonal variation and ornament; only background pixels were converted to transparency. The original JPEG remains untouched as the source asset.
-- Story image set: `story-morning-suite.png`, `story-welcome-family.png`, `story-afternoon-dining.png`, `story-wedding-arrival.png` and `story-moonlit-balcony.png` are all new assets generated specifically for this sequence. None reuse the existing room, dining, wedding or finale photography.
-- Copy and content: route names mirror the actual semantic sections and contextual cursor verbs describe the available action.
+- Fonts and typography: Georgia/Times provides an email-safe high-contrast serif; Arial/Helvetica provides reliable operational copy. Hierarchy, weights, spacing and wrapping match the target without relying on web fonts.
+- Spacing and layout rhythm: 680px table shell, generous content padding, dividers and responsive stacking preserve the target's visual rhythm across email clients.
+- Colors and visual tokens: ink `#171611`, paper `#fbf8f1`, muted warm grey `#716b61` and gold `#b9934c` match the website and source concept.
+- Image quality and asset fidelity: the original Imperial Satyendra PNG is attached inline using CID and rendered at its natural aspect ratio. No substitute or redrawn logo is used.
+- Copy and content: dynamic enquiry heading, guest details, Indian phone format, source-specific fields, received time, message and actions are all present.
 
-## Focused comparison evidence
+## Findings
 
-- Hero region: the compact progress rail keeps the reference website’s navigational storytelling idea while matching the selected ivory concept’s quieter visual density.
-- Gallery region: the 1280 × 720 capture confirms the active `05` stop, stacked photographs, available carousel controls and cursor can coexist without overlap.
-- Responsive region: the 633 × 884 capture confirms a compact number-free route rail and visible cursor hover label. Touch devices do not render the custom cursor.
-- Story region: the 1280 × 720 capture confirms readable text contrast, deliberate crop, full image loading, no horizontal overflow and clear separation between the route rail and story copy. The 633 × 884 captures verify all five transitions through the moonlit closing frame.
+- No actionable P0, P1 or P2 differences remain.
+- P3: decorative icons from the concept were omitted intentionally because raster icon attachments add weight and inconsistent blocking behavior across email clients. Text actions are clearer and more reliable.
 
 ## Comparison history
 
-1. P2 — Direct gallery navigation inherited zero-opacity GSAP styles. Fixed by removing the conflicting entrance animation; fresh-session evidence showed opacity `1` and a visible five-card stack.
-2. P2 — At 633px, the fixed route rail approached the gallery’s right-arrow hit area. Fixed by switching the gallery heading/controls to a vertical layout below 700px and reserving rail clearance.
-3. Post-fix evidence — Final 1280 × 720 capture showed zero horizontal overflow, `#gallery` in the URL, “Go to Gallery section” active, and no browser console errors.
-4. P2 — The initial story build queried `.story-scene:first-child`, but the persistent progress element was the first child, producing a missing-target GSAP warning. Fixed by resolving the first story scene from the measured scene collection and conditionally animating its copy node.
-5. Post-fix evidence — Fresh tab 10 loaded all five of five story images, reported zero horizontal overflow, retained “Go to Our story section” as the active route across the pinned journey and produced no browser warnings or errors.
-6. P2 — The supplied logo carried a black rectangle that visibly conflicted with the transparent navbar and surrounding footer color. A strict ImageGen extraction was rejected because it altered the artwork and introduced a glow. The final asset was instead derived from the supplied pixels with a real alpha channel, preserving the original identity.
-7. Post-fix evidence — Fresh tab 11 at 1280 × 720 and 513 × 884 showed the transparent gold mark blending directly over the hero photograph and footer surface, with no rectangle, crop, overflow or illegible lettering.
+- Initial pass: the phone number was visually dense because all ten digits were ungrouped.
+- Fix: grouped it as `+91 98765 43210` while keeping the underlying `tel:+919876543210` action intact.
+- Post-fix evidence: refreshed in-app browser preview confirmed the grouped display and correct action target.
 
-## Functional and quality checks
+## Implementation checklist
 
-- Primary navigation scrolls to the correct sections.
-- Every route stop updates the URL fragment, scrolls smoothly and becomes the active `aria-current` location.
-- Cursor follows pointer movement with GSAP quick setters and changes label/state over route links, gallery cards and primary CTAs.
-- Five story scenes load successfully, reveal in the intended order and release the sticky stage into the existing rooms section.
-- Gallery previous/next controls update both the active photograph and numeric counter.
-- Enquiry CTAs open a usable form overlay; the overlay closes through its close control and Escape key.
-- Semantic heading order, descriptive image alternative text and keyboard-visible controls are present.
-- Reduced-motion users bypass the GSAP/Lenis motion layer.
-- Browser console contains no runtime errors.
-- ESLint passes.
-- Production build passes.
-- `/robots.txt` and `/sitemap.xml` are statically generated.
-
-## Intentional deviations
-
-- The visual source is a concept montage rather than a pixel-measured UI specification. The implementation preserves its composition, tone and storytelling system while adding production navigation, a responsive enquiry flow, search metadata and accessible controls.
-- Exact contact details, street address, pricing and room inventory are deliberately omitted until supplied by the client; this avoids publishing unverifiable business information.
-
-## Stay page QA
-
-### Comparison set
-
-- Source visual truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-ee82fa6e-5ef7-4273-8e08-ff5db535a4e8.png`, the selected Imperial Satyendra ivory editorial direction used by the homepage.
-- Source pixels: 793 × 1981.
-- Implementation: `http://localhost:3000/stay` in Codex in-app Browser tab 11.
-- Implementation evidence: desktop captures at `1280 × 720` and mobile captures at an effective `354 × 844` CSS viewport, device density 1.
-- States captured: hero after entrance motion, guest-choice grid, pinned afternoon story frame, stacked gallery before and after next-image interaction, FAQ closed and expanded, enquiry CTA, full form, success state, and mobile gallery layout.
-- Normalization: this is an extension of the selected visual system rather than a pixel clone of an existing Stay screen. Comparison therefore uses the same editorial hierarchy, palette, photographic language, spacing rhythm, image stacking and motion behavior at matching desktop and mobile densities.
-
-### Findings
-
-- No P0, P1 or P2 findings remain.
-- P3 follow-up: replace the neutral room-use categories with confirmed room names, sizes, occupancy and facilities when the client supplies them. The current page deliberately avoids presenting unverified inventory as fact.
-
-### Required fidelity surfaces
-
-- Fonts and typography: Cormorant Garamond remains the display face and Manrope remains the plain body face. Desktop and mobile captures preserve clear heading hierarchy, readable line lengths and simple language without truncation.
-- Spacing and layout rhythm: desktop uses the established editorial grid and large section breathing room. Mobile collapses every split layout to one column, reports zero horizontal overflow and reserves space beside the fixed route rail.
-- Colors and visual tokens: existing ivory, paper, ink and antique-gold tokens are reused. Dark room-choice and photo-story sections preserve the homepage rhythm and maintain text contrast.
-- Image quality and asset fidelity: five new 1536 × 1024 supporting photographs and one 1855 × 848 hero share the same ivory, walnut, gold and arched-room language. Crops remain useful at both tested breakpoints; no placeholder or CSS-drawn imagery is present.
-- Copy and content: the page uses clear search language such as “hotel rooms in Patna”, “family stays” and “work trips”. Prices, room measurements, facility claims and booking promises are omitted until verified.
-- Icons and states: Phosphor icons match the existing thin-line icon system. Gallery controls, FAQ expansion, form fields, modal close behavior and success state were exercised in the browser.
-
-### Full-view and focused evidence
-
-- Full-view: the Stay hero matches the source’s full-bleed photography, serif-led hierarchy, gold microcopy and restrained navigation while presenting a distinct room-focused subject.
-- Choice grid: one large and two supporting photo cards translate the source’s layered room montage into clear guest needs without generic UI-card styling.
-- Scroll story: the captured afternoon frame confirms full-bleed image quality, readable glass-dark copy surface, upward scene transition and gold progress indicator.
-- Gallery: the active room and bathroom captures confirm correct perspective stacking, image order, control state and counter update from `01 / 04` to `02 / 04`.
-- Responsive: the mobile choice and details captures show no horizontal overflow, no clipped controls and adequate clearance between readable copy and the route rail.
-- Conversion: the room enquiry opens from the final CTA, fits the desktop viewport, exposes labelled fields, prevents empty submission and reaches a clear local success state.
-
-### Comparison history
-
-1. P2 — At 1280 × 720, the first hero version used a fixed 940px height, placing the primary room CTA below the first fold. Fixed by using a `100svh` hero with a 720px minimum. Post-fix capture shows the complete heading, description and both actions.
-2. P2 — At the mobile details anchor, the fixed route rail covered the final words of the descriptive paragraph. Fixed by reserving right padding for details and FAQ copy below 620px. Post-fix capture shows the paragraph fully readable beside the rail.
-3. P2 — The first enquiry layout required scrolling before its submit action was visible at 1280 × 720. Fixed by reducing only the Stay form’s vertical padding, heading size and control spacing. Post-fix capture shows the complete form and submit button in one view.
-4. Post-fix evidence — Browser console warnings/errors: none. Gallery counter changed correctly, FAQ expanded, test submission reached the local success state, and effective 354px mobile viewport reported `scrollWidth === innerWidth`.
-
-### Functional and technical checks
-
-- `/stay` is statically generated with a unique canonical title, description, keywords, Open Graph data and Twitter image.
-- Hotel, breadcrumb and FAQ JSON-LD are present and avoid unverified room details.
-- `/stay` and all six Stay photographs are included in `sitemap.xml`.
-- Homepage desktop, footer and mobile-menu Stay links now open `/stay`.
-- Reduced-motion users receive a normal stacked story instead of a pinned animated sequence.
-- ESLint passes, production build passes and the route appears in the static build output.
-
-## Celebrate page QA
-
-### Comparison set
-
-- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-9f4d1b57-2d1d-4470-bd15-b43dd0316b28.png`, the selected option 1 ivory celebration journey.
-- Implementation: `http://localhost:3001/celebrate?qa=final` in the Codex in-app Browser.
-- Implementation evidence: desktop review at `1440 × 1000` and mobile review at `390 × 844`, with the source and implementation compared for hierarchy, palette, photography, editorial rhythm, image stacking and scroll storytelling.
-- States checked: hero after entrance motion, all four story chapters, gallery before and after navigation, FAQ expanded, mobile menu open, enquiry form validation, and local success state.
-
-### Findings
-
-- No P0, P1 or P2 visual or functional findings remain.
-- P3 launch follow-up: replace the local demonstration submission with the client's enquiry service and add verified telephone, address and capacity details when supplied.
-
-### Visual and interaction match
-
-- The source's ivory editorial mood is carried into a full-screen wedding arrival, quiet paper sections, a central gold story thread, alternating photography and a dark closing enquiry scene.
-- Five new photographs form one coherent celebration from planning and family arrival through the ceremony and night reception. They are purpose-generated assets, not reused homepage photographs.
-- The story chapters reveal on scroll, while reduced-motion users receive a stable stacked layout.
-- The gallery uses five layered photo cards with working previous, next and direct-select controls. A conflicting card entrance animation found during QA was removed so direct section navigation never leaves the images hidden.
-- Desktop navigation, mobile menu, fixed route rail, custom cursor states, FAQ accordion and enquiry modal follow the existing Imperial Satyendra interaction language.
-- Both tested viewports have no horizontal overflow. Typography, button sizing, image crops and route-rail clearance remain readable on mobile.
-
-### Functional and technical checks
-
-- All fourteen rendered images report successful natural dimensions after the lazy-loaded sections enter the viewport.
-- The enquiry form enforces its required fields and reaches the intended local success state with test data.
-- The canonical URL resolves to `https://www.imperialsatyendra.com/celebrate`.
-- Event venue, breadcrumb and FAQ structured data are included without invented contact, pricing or capacity claims.
-- `/celebrate` and its five JPEG photographs are included in `sitemap.xml`; navigation links from the homepage and Stay page point to the new route.
-- Browser console warnings/errors: none.
-- ESLint passes.
-- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/robots.txt` and `/sitemap.xml`.
-
-## Dine page QA
-
-### Comparison set
-
-- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-9dca4df2-ff5d-420c-bc34-39f4b24f7a16.png`, the selected option 3 ivory editorial dining journey.
-- Implementation: `http://localhost:3001/dine?qa=final` in Codex in-app Browser.
-- Implementation evidence: focused desktop review at an effective `1280 × 720` viewport and mobile review at `390 × 844`.
-- States checked: hero, four meal chapters, chef story, shared-table scene, stacked gallery before and after navigation, FAQ expanded, mobile menu, reservation form, and local success state.
-- Normalization: the source is a tall concept montage, so focused viewport captures were compared for hierarchy, palette, image crops, editorial rhythm and scroll storytelling. A browser full-page stitch distorted fixed and parallax layers and was not used as fidelity evidence.
-
-### Findings
-
-- No P0, P1 or P2 visual or functional findings remain.
-- P3 launch follow-up: connect the reservation form to the client's service and add only verified menu items, hours, telephone and address details when supplied.
-
-### Visual and content fidelity
-
-- Cormorant Garamond display type, Manrope body type, ivory paper, deep brown surfaces and antique-gold details match the established Imperial Satyendra system.
-- Seven purpose-generated dining photographs form one visual day from breakfast through dinner, kitchen preparation and a shared Indian meal. No homepage or celebration photographs are reused.
-- The four meal chapters alternate image and copy, reveal through a continuous gold story line, and remain readable beside the fixed route rail on mobile.
-- The chef section uses layered popup photographs; the feast image supplies a cinematic full-width transition; and the gallery uses five stacked photographs with working previous, next and direct-select controls.
-- Copy uses plain phrases such as “restaurant and dining in Patna”, “breakfast”, “lunch”, “evening tea”, “dinner” and “family meal”. It avoids unverified claims, prices, opening hours and menu promises.
-
-### Comparison history
-
-1. P2 — Large source PNGs stalled the development image optimizer. Fixed by producing high-quality JPEG delivery assets while retaining the generated source masters. All meaningful images loaded during the full route pass.
-2. P2 — The first mobile hero title approached the fixed route rail. Fixed by narrowing the hero copy area and reducing the mobile title scale. The `390 × 844` post-fix capture shows the complete title, paragraph and CTA without overlap.
-3. P2 — Direct navigation to the dinner chapter produced a development LCP warning for its duplicated image. Fixed by eagerly loading the relevant dinner assets. The final fresh-page browser pass is clean.
-
-### Functional and technical checks
-
-- `/dine` has unique title, description, simple keywords, canonical metadata, Open Graph data and a Twitter image.
-- Restaurant, hotel-parent, breadcrumb and FAQ structured data are included without invented business details.
-- `/dine` and all seven dining JPEGs are included in `sitemap.xml`; Dine links across the existing homepage, Stay and Celebrate navigation point to the route.
-- The mobile menu, custom cursor states, route rail, gallery controls, FAQ accordion and reservation dialog all work. A completed test reservation reaches the intended local success state.
-- Reduced-motion users receive stable, readable layouts without pinned or scrubbed animation.
-- Both tested viewports report no horizontal overflow.
-- ESLint passes.
-- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/dine`, `/robots.txt` and `/sitemap.xml`.
-
-## Gallery page QA
-
-### Comparison set
-
-- Visual source truth: `/Users/sumangaldey/.codex/generated_images/01a07f2f-936d-7151-ab53-0b40e43d1d76/exec-1caab98b-0b2e-433e-9177-f2414f1c3ddc.png`, the selected option 3 curated-album direction.
-- Source pixels: `748 × 2103`.
-- Implementation: `http://localhost:3001/gallery?qa=final` in Codex in-app Browser tab 18.
-- Implementation screenshot evidence: browser-managed focused captures from tab 18 at an effective `1309 × 909` desktop viewport and `354 × 844` mobile CSS viewport. The browser integration does not expose a filesystem path for these captures.
-- Final user-facing viewport: `1280 × 720` with the hero photographs loaded and no horizontal overflow.
-- States checked: hero, sticky category index, all five photo chapters, full album mosaic, mobile menu, mobile and desktop lightbox, next/previous photo controls, enquiry form, and local success state.
-- Normalization: the long concept montage was compared through focused captures at the same section and interaction state; fixed route controls and browser chrome were excluded from layout judgments where appropriate.
-
-### Findings
-
-- No P0, P1 or P2 visual or functional findings remain.
-- P3 launch follow-up: replace demonstration enquiry handling with the client's service and add only verified contact details or venue information when supplied.
-
-### Required fidelity surfaces
-
-- Fonts and typography: Cormorant Garamond and Manrope preserve the reference's editorial serif and plain sans-serif pairing. The desktop hero now keeps the selected two-line title, while the mobile title wraps without colliding with the route rail.
-- Spacing and layout rhythm: the five chapters use a clear copy-and-photo grid on desktop and a readable stacked order on mobile. The sticky category index, wide ivory sections, dark architecture interlude and closing night image follow the selected album rhythm.
-- Colors and visual tokens: existing ivory, paper, charcoal and antique-gold tokens are reused. Text and controls retain clear contrast in the dark chapter, lightbox and finale.
-- Image quality and asset fidelity: sixteen real project photographs cover architecture, rooms, celebrations, food and guest moments. Lighter JPEG delivery copies were created for older PNG sources that stalled during direct mobile navigation; no placeholder, CSS-drawn or invented visual asset remains.
-- Copy and content: simple search phrases such as “hotel photos Patna”, “rooms”, “wedding celebrations”, “restaurant dining” and “hotel gallery” are used naturally. Prices, ratings, awards, capacities and unverified contact details are not published.
-
-### Full-view and focused evidence
-
-- Hero: the final desktop capture matches the selected source's ivory canvas, oversized two-line serif title and three fanned photographs, with the original transparent logo and restrained navigation.
-- Chapters: focused Rooms and Architecture captures confirm the numbered editorial copy, overlapping photo fan, ivory-to-dark contrast shift and readable captions.
-- Album: the mobile mosaic capture shows the full three-column contact-sheet structure, clear CTA and no clipped content.
-- Lightbox: mobile evidence shows the selected portrait image, `03 / 16` counter, readable caption, close control and previous/next actions in one viewport.
-- Conversion: the mobile enquiry form fits the viewport, its close control remains visible on paper, required fields accept realistic test data and submission reaches the local success state.
-
-### Comparison history
-
-1. P2 — The original `1000px` layout breakpoint stacked chapter text and photographs too early in the normal in-app desktop viewport, creating a large empty area. Fixed by moving the stack breakpoint to `820px`; post-fix desktop evidence shows copy and fanned photographs together.
-2. P2 — Direct mobile category jumps initially showed blank frames while several large legacy PNGs were being optimized. Fixed by creating high-quality JPEG delivery copies and updating Gallery references. All fifteen chapter images now report successful natural dimensions.
-3. P2 — The first wide desktop hero wrapped “Every corner” onto separate lines. Fixed by balancing the hero columns and reducing the fluid display-size rate. Post-fix evidence shows the selected two-line title.
-4. P2 — The first mobile enquiry capture used a white close control against the ivory form. Fixed with Gallery-specific ink, border and background styles.
-5. P2 — The first clean console pass found zero-height warnings for implicit mosaic rows and duplicate hero-image LCP warnings. Fixed with explicit grid auto rows and consistent eager loading for repeated above-the-fold sources. The final fresh-tab console check reports no warnings or errors.
-
-### Functional and technical checks
-
-- The sticky category index and the nine-stop scroll route navigate to the expected sections.
-- The sixteen-photo lightbox opens from hero cards, chapter cards and the mosaic; previous, next, close and keyboard arrow/Escape controls work.
-- The mobile menu opens and exposes all primary routes.
-- The enquiry form accepts name, phone, email, interest and message fields and reaches the intended local success state.
-- All chapter and mosaic images load successfully, and desktop and mobile checks report no horizontal overflow.
-- `/gallery` includes a unique canonical title, description, simple keywords, Open Graph image, Twitter image, ImageGallery structured data and breadcrumb structured data.
-- `/gallery` and its representative photographs are included in `sitemap.xml`; Gallery links across Home, Stay, Celebrate and Dine now point to the dedicated route.
-- Reduced-motion users receive stable photo clusters without entrance movement.
-- Browser console warnings/errors: none in the final fresh-tab pass.
-- ESLint passes.
-- Production build passes and statically generates `/`, `/stay`, `/celebrate`, `/dine`, `/gallery`, `/robots.txt` and `/sitemap.xml`.
+- [x] Embedded real logo.
+- [x] Dynamic content and enquiry-specific heading.
+- [x] Call and reply actions.
+- [x] Responsive table-based email layout.
+- [x] Plain-text fallback.
+- [x] Production build.
 
 final result: passed

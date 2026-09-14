@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle, Diamond, List, MapPin, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
+import { useEnquiryForm } from "../lib/useEnquiryForm";
+import PhoneField from "./PhoneField";
 
 const dineRoute = [
   ["dine-top", "Welcome"], ["dine-day", "The day"], ["dine-morning", "Morning"],
@@ -36,7 +38,7 @@ export default function DinePage() {
   const cursorLabel = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [reserveOpen, setReserveOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { submitted, submitting, submitError, handleSubmit, resetSubmission } = useEnquiryForm("dine");
   const [activeSection, setActiveSection] = useState(0);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -119,6 +121,6 @@ export default function DinePage() {
 
     <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}><button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26}/></button><nav><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine" onClick={() => setMenuOpen(false)}>Dine</Link><Link href="/gallery">Gallery</Link></nav><button className="primary-button gold" onClick={() => {setMenuOpen(false);setReserveOpen(true);}}>Reserve a table</button></div>
 
-    <div className={`enquiry-overlay ${reserveOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Reserve a table at Imperial Satyendra"><button className="close-dialog" onClick={() => {setReserveOpen(false);setSubmitted(false);}} aria-label="Close reservation"><X size={24}/></button>{submitted ? <div className="success-state"><CheckCircle size={48} weight="thin"/><p className="eyebrow">Thank you</p><h2>We have your table request.</h2><p>Your request has been noted in this preview. Connect the hotel reservation service before launch to receive submissions.</p><button className="primary-button" onClick={() => {setReserveOpen(false);setSubmitted(false);}}>Return to the page</button></div> : <form onSubmit={(event:FormEvent<HTMLFormElement>) => {event.preventDefault();setSubmitted(true);}}><p className="eyebrow">Table reservation</p><h2>Plan your meal.</h2><div className="dine-form-row"><label>Name<input name="name" required autoComplete="name"/></label><label>Phone number<input name="phone" type="tel" required autoComplete="tel"/></label></div><div className="dine-form-row"><label>Preferred date<input name="date" type="date" required/></label><label>Preferred time<input name="time" type="time" required/></label></div><div className="dine-form-row"><label>Number of guests<input name="guests" type="number" min="1" required/></label><label>Meal<select name="meal"><option>Breakfast</option><option>Lunch</option><option>Evening tea</option><option>Dinner</option></select></label></div><label>Anything we should know?<textarea name="message" rows={2}/></label><button className="primary-button" type="submit">Send table request <ArrowRight size={17}/></button><small>Demo form — connect the hotel reservation service before launch.</small></form>}</div>
+    <div className={`enquiry-overlay ${reserveOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Reserve a table at Imperial Satyendra"><button className="close-dialog" onClick={() => {setReserveOpen(false);resetSubmission();}} aria-label="Close reservation"><X size={24}/></button>{submitted ? <div className="success-state"><CheckCircle size={48} weight="thin"/><p className="eyebrow">Thank you</p><h2>We have your table request.</h2><p>Your table request has been sent to the Imperial Satyendra team. They will contact you using the details you provided.</p><button className="primary-button" onClick={() => {setReserveOpen(false);resetSubmission();}}>Return to the page</button></div> : <form onSubmit={handleSubmit}><p className="eyebrow">Table reservation</p><h2>Plan your meal.</h2><div className="dine-form-row"><label>Name<input name="name" required autoComplete="name"/></label><PhoneField /></div><div className="dine-form-row"><label>Preferred date<input name="date" type="date" required/></label><label>Preferred time<input name="time" type="time" required/></label></div><div className="dine-form-row"><label>Number of guests<input name="guests" type="number" min="1" required/></label><label>Meal<select name="meal"><option>Breakfast</option><option>Lunch</option><option>Evening tea</option><option>Dinner</option></select></label></div><label>Anything we should know?<textarea name="message" rows={2}/></label><label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>{submitError && <p className="enquiry-form-error" role="alert">{submitError}</p>}<button className="primary-button" type="submit" disabled={submitting}>{submitting ? "Sending..." : "Send table request"} {!submitting && <ArrowRight size={17}/>}</button><small>The Imperial Satyendra team will receive this request by email.</small></form>}</div>
   </div>;
 }

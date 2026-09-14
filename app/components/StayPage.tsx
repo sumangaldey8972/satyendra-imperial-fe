@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowLeft,
@@ -22,6 +22,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
+import { useEnquiryForm } from "../lib/useEnquiryForm";
+import PhoneField from "./PhoneField";
 
 const stayRoute = [
   ["stay-top", "Rooms"],
@@ -46,7 +48,7 @@ export default function StayPage() {
   const cursorLabel = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { submitted, submitting, submitError, handleSubmit, resetSubmission } = useEnquiryForm("stay");
   const [activeSection, setActiveSection] = useState(0);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -363,20 +365,22 @@ export default function StayPage() {
       </div>
 
       <div className={`enquiry-overlay ${enquiryOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Ask about hotel rooms in Patna">
-        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }} aria-label="Close enquiry"><X size={24} /></button>
+        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); resetSubmission(); }} aria-label="Close enquiry"><X size={24} /></button>
         {submitted ? <div className="success-state">
           <CheckCircle size={48} weight="thin" /><p className="eyebrow">Thank you</p><h2>We have your room request.</h2>
-          <p>Your enquiry has been noted in this preview. Connect the live booking service before launch to receive submissions.</p>
-          <button className="primary-button" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }}>Return to rooms</button>
-        </div> : <form onSubmit={(event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitted(true); }}>
+          <p>Your room enquiry has been sent to the Imperial Satyendra team. They will contact you using the details you provided.</p>
+          <button className="primary-button" onClick={() => { setEnquiryOpen(false); resetSubmission(); }}>Return to rooms</button>
+        </div> : <form onSubmit={handleSubmit}>
           <p className="eyebrow">Room enquiry</p><h2>Tell us about your stay.</h2>
           <label>Name<input required name="name" autoComplete="name" /></label>
-          <label>Phone number<input required type="tel" name="phone" autoComplete="tel" /></label>
+          <PhoneField />
           <div className="stay-form-row"><label>Arrival date<input required type="date" name="arrival" /></label><label>Guests<select name="guests" defaultValue="2"><option value="1">1 guest</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4+">4 or more</option></select></label></div>
           <label>Reason for your stay<select name="stayType" defaultValue="couple"><option value="couple">Stay for two</option><option value="family">Family stay</option><option value="work">Work trip</option><option value="wedding">Wedding group</option></select></label>
           <label>Anything else we should know?<textarea name="message" rows={3} /></label>
-          <button className="primary-button" type="submit">Send room enquiry <ArrowRight size={18} /></button>
-          <small>Demo form — connect the hotel booking service before launch.</small>
+          <label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+          {submitError && <p className="enquiry-form-error" role="alert">{submitError}</p>}
+          <button className="primary-button" type="submit" disabled={submitting}>{submitting ? "Sending..." : "Send room enquiry"} {!submitting && <ArrowRight size={18} />}</button>
+          <small>The Imperial Satyendra team will receive this enquiry by email.</small>
         </form>}
       </div>
     </div>

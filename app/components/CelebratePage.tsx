@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowLeft,
@@ -22,6 +22,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
+import { useEnquiryForm } from "../lib/useEnquiryForm";
+import PhoneField from "./PhoneField";
 
 const celebrateRoute = [
   ["celebrate-top", "Celebrate"],
@@ -82,7 +84,7 @@ export default function CelebratePage() {
   const cursorLabel = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const { submitted, submitting, submitError, handleSubmit, resetSubmission } = useEnquiryForm("celebrate");
   const [activeSection, setActiveSection] = useState(0);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -348,9 +350,9 @@ export default function CelebratePage() {
       </div>
 
       <div className={`enquiry-overlay ${enquiryOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Plan a wedding or celebration in Patna">
-        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }} aria-label="Close enquiry"><X size={24} /></button>
-        {submitted ? <div className="success-state"><CheckCircle size={48} weight="thin" /><p className="eyebrow">Thank you</p><h2>We have your celebration request.</h2><p>Your enquiry has been noted in this preview. Connect the hotel enquiry service before launch to receive submissions.</p><button className="primary-button" onClick={() => { setEnquiryOpen(false); setSubmitted(false); }}>Return to the page</button></div> :
-          <form onSubmit={(event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitted(true); }}><p className="eyebrow">Celebration enquiry</p><h2>Tell us what you are planning.</h2><label>Name<input required name="name" autoComplete="name" /></label><label>Phone number<input required type="tel" name="phone" autoComplete="tel" /></label><div className="celebrate-form-row"><label>Preferred date<input required type="date" name="date" /></label><label>Number of guests<input required min="1" type="number" name="guests" placeholder="For example, 200" /></label></div><label>Type of celebration<select name="eventType" defaultValue="wedding"><option value="wedding">Wedding</option><option value="reception">Reception</option><option value="engagement">Engagement</option><option value="family">Family event</option><option value="other">Other celebration</option></select></label><label>Anything else we should know?<textarea name="message" rows={3} /></label><button className="primary-button" type="submit">Send celebration enquiry <ArrowRight size={18} /></button><small>Demo form — connect the hotel enquiry service before launch.</small></form>}
+        <button className="close-dialog" onClick={() => { setEnquiryOpen(false); resetSubmission(); }} aria-label="Close enquiry"><X size={24} /></button>
+        {submitted ? <div className="success-state"><CheckCircle size={48} weight="thin" /><p className="eyebrow">Thank you</p><h2>We have your celebration request.</h2><p>Your celebration enquiry has been sent to the Imperial Satyendra team. They will contact you using the details you provided.</p><button className="primary-button" onClick={() => { setEnquiryOpen(false); resetSubmission(); }}>Return to the page</button></div> :
+          <form onSubmit={handleSubmit}><p className="eyebrow">Celebration enquiry</p><h2>Tell us what you are planning.</h2><label>Name<input required name="name" autoComplete="name" /></label><PhoneField /><div className="celebrate-form-row"><label>Preferred date<input required type="date" name="date" /></label><label>Number of guests<input required min="1" type="number" name="guests" placeholder="For example, 200" /></label></div><label>Type of celebration<select name="eventType" defaultValue="wedding"><option value="wedding">Wedding</option><option value="reception">Reception</option><option value="engagement">Engagement</option><option value="family">Family event</option><option value="other">Other celebration</option></select></label><label>Anything else we should know?<textarea name="message" rows={3} /></label><label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>{submitError && <p className="enquiry-form-error" role="alert">{submitError}</p>}<button className="primary-button" type="submit" disabled={submitting}>{submitting ? "Sending..." : "Send celebration enquiry"} {!submitting && <ArrowRight size={18} />}</button><small>The Imperial Satyendra team will receive this enquiry by email.</small></form>}
       </div>
     </div>
   );
