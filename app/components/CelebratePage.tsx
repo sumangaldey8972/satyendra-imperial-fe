@@ -23,6 +23,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
 import { useEnquiryForm } from "../lib/useEnquiryForm";
+import { FooterContactLinks, HeaderContactLinks, MenuContactLinks } from "./ContactLinks";
 import PhoneField from "./PhoneField";
 
 const celebrateRoute = [
@@ -247,6 +248,7 @@ export default function CelebratePage() {
           <Link href="/stay">Stay</Link><Link className="nav-active" href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link>
         </nav>
         <div className="header-actions">
+          <HeaderContactLinks />
           <button className="text-button" data-cursor="Plan" onClick={() => setEnquiryOpen(true)}>Plan your celebration</button>
           <button className="menu-button" data-cursor="Menu" onClick={() => setMenuOpen(true)} aria-label="Open menu"><List size={23} weight="light" /></button>
         </div>
@@ -340,12 +342,13 @@ export default function CelebratePage() {
       <footer>
         <div className="footer-brand"><Link href="/"><Image src={logo} alt="Imperial Satyendra" /></Link><p>Stay beautifully. Celebrate grandly.</p></div>
         <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></div>
-        <p className="footer-location">Patna, Bihar, India</p><p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
+        <p className="footer-location">Patna, Bihar, India</p><FooterContactLinks /><p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
         <nav><Link href="/stay">Stay</Link><Link href="/celebrate" onClick={() => setMenuOpen(false)}>Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></nav>
+        <MenuContactLinks />
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Plan your celebration</button>
       </div>
 

@@ -23,6 +23,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
 import { useEnquiryForm } from "../lib/useEnquiryForm";
+import { FooterContactLinks, HeaderContactLinks, MenuContactLinks } from "./ContactLinks";
 import PhoneField from "./PhoneField";
 
 const stayRoute = [
@@ -36,10 +37,10 @@ const stayRoute = [
 ];
 
 const gallery = [
-  ["/images/stay-hero-room.png", "Spacious hotel room with a king bed and seating area in Patna"],
-  ["/images/stay-bathroom.png", "Clean hotel bathroom with a walk-in shower and stone vanity"],
-  ["/images/stay-workspace.png", "Quiet desk and work area inside an Imperial Satyendra guest room"],
-  ["/images/stay-breakfast.png", "Indian breakfast served beside the window of a hotel room in Patna"],
+  ["/images/stay-suite-hero.jpeg", "Sunset-lit suite with a city view at Imperial Satyendra in Patna"],
+  ["/images/stay-suite-bed.jpeg", "King bed with panoramic city windows at Imperial Satyendra"],
+  ["/images/stay-suite-afternoon.jpeg", "Warm suite lounge with city views at Imperial Satyendra"],
+  ["/images/stay-suite-real.jpeg", "Actual king room at Imperial Satyendra in Patna"],
 ];
 
 export default function StayPage() {
@@ -226,6 +227,7 @@ export default function StayPage() {
           <Link href="/gallery">Gallery</Link>
         </nav>
         <div className="header-actions">
+          <HeaderContactLinks />
           <button className="text-button" data-cursor="Open" onClick={() => setEnquiryOpen(true)}>Ask about rooms</button>
           <button className="menu-button" data-cursor="Menu" onClick={() => setMenuOpen(true)} aria-label="Open menu"><List size={23} weight="light" /></button>
         </div>
@@ -233,7 +235,7 @@ export default function StayPage() {
 
       <main id="stay-main">
         <section className="stay-hero" id="stay-top" aria-labelledby="stay-title">
-          <Image className="stay-hero-media" src="/images/stay-hero-room.png" alt="Comfortable hotel room with a king bed at Imperial Satyendra in Patna" fill sizes="100vw" priority />
+          <Image className="stay-hero-media" src="/images/stay-suite-hero.jpeg" alt="Sunset-lit suite with a city view at Imperial Satyendra in Patna" fill sizes="100vw" priority />
           <div className="stay-hero-shade" />
           <div className="stay-hero-content">
             <p className="eyebrow light stay-hero-kicker">Hotel rooms in Patna</p>
@@ -266,7 +268,7 @@ export default function StayPage() {
           </div>
           <div className="stay-choice-grid">
             <article className="stay-choice-card stay-choice-large">
-              <Image src="/images/stay-hero-room.png" alt="Room for two with a king bed and seating area" fill sizes="(max-width: 800px) 90vw, 48vw" />
+              <Image src="/images/stay-suite-bed.jpeg" alt="King bed with panoramic city windows at Imperial Satyendra" fill sizes="(max-width: 800px) 90vw, 48vw" />
               <div className="stay-choice-shade" />
               <div className="stay-choice-copy"><Bed size={25} weight="thin" /><span>Rooms for two</span><h3>Time to rest together.</h3><button onClick={() => setEnquiryOpen(true)}>Ask our team <ArrowRight size={16} /></button></div>
             </article>
@@ -297,7 +299,7 @@ export default function StayPage() {
                 <div className="stay-day-copy"><Sun size={24} weight="thin" /><p>01 · Morning</p><h3>Start slowly.</h3><span>Ask our team about breakfast and meal options for your stay.</span></div>
               </article>
               <article className="stay-day-scene stay-day-right">
-                <Image src="/images/stay-workspace.png" alt="Desk for working inside a comfortable hotel room" fill sizes="100vw" />
+                <Image src="/images/stay-suite-afternoon.jpeg" alt="Warm suite lounge with space to work at Imperial Satyendra" fill sizes="100vw" />
                 <div className="stay-day-copy"><Briefcase size={24} weight="thin" /><p>02 · Afternoon</p><h3>Make time for work.</h3><span>A separate desk gives you a clear place for calls, notes and planning.</span></div>
               </article>
               <article className="stay-day-scene">
@@ -312,7 +314,7 @@ export default function StayPage() {
           <div className="stay-detail-copy" data-stay-reveal>
             <p className="eyebrow">See the room</p>
             <h2>Small details make<br />a stay easier.</h2>
-            <p>Look through the sleeping area, bathroom, work space and breakfast setting. Exact room features can differ, so our team will confirm what is available before you book.</p>
+            <p>Look through the sleeping area, city-facing windows and warm suite details. Exact room features can differ, so our team will confirm what is available before you book.</p>
             <div className="stay-gallery-controls">
               <button data-cursor="Previous" onClick={() => nextImage(-1)} aria-label="Previous room photograph"><ArrowLeft size={19} /></button>
               <span>{String(activeImage + 1).padStart(2, "0")} / {String(gallery.length).padStart(2, "0")}</span>
@@ -340,7 +342,7 @@ export default function StayPage() {
         </section>
 
         <section className="stay-enquire" id="stay-enquire">
-          <Image src="/images/stay-evening-room.png" alt="Warm and comfortable hotel room at night" fill sizes="100vw" />
+          <Image src="/images/stay-suite-bed.jpeg" alt="Warm king suite at Imperial Satyendra in Patna" fill sizes="100vw" />
           <div className="stay-enquire-shade" />
           <div className="stay-enquire-copy" data-stay-reveal>
             <p className="eyebrow light">Plan your stay in Patna</p>
@@ -355,12 +357,14 @@ export default function StayPage() {
         <div className="footer-brand"><Link href="/"><Image src={logo} alt="Imperial Satyendra" /></Link><p>Stay beautifully. Celebrate grandly.</p></div>
         <div className="footer-links"><Link href="/stay">Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></div>
         <p className="footer-location">Patna, Bihar, India</p>
+        <FooterContactLinks />
         <p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
         <nav><Link href="/stay" onClick={() => setMenuOpen(false)}>Stay</Link><Link href="/celebrate">Celebrate</Link><Link href="/dine">Dine</Link><Link href="/gallery">Gallery</Link></nav>
+        <MenuContactLinks />
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Ask about rooms</button>
       </div>
 

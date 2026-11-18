@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import logo from "../asset/satyendra-imperial-logo.png";
 import { useEnquiryForm } from "../lib/useEnquiryForm";
+import { FooterContactLinks, HeaderContactLinks, MenuContactLinks } from "./ContactLinks";
 import PhoneField from "./PhoneField";
 
 const gallery = [
@@ -213,6 +214,7 @@ export default function ImperialHome() {
           <a href="/stay">Stay</a><a href="/celebrate">Celebrate</a><a href="/dine">Dine</a><a href="/gallery">Gallery</a>
         </nav>
         <div className="header-actions">
+          <HeaderContactLinks />
           <button className="text-button" data-cursor="Open" onClick={() => setEnquiryOpen(true)}>Enquire</button>
           <button className="menu-button" data-cursor="Menu" onClick={() => setMenuOpen(true)} aria-label="Open menu"><List size={23} weight="light" /></button>
         </div>
@@ -220,7 +222,7 @@ export default function ImperialHome() {
 
       <main id="main">
         <section className="hero" id="top" aria-labelledby="hero-title">
-          <Image className="hero-media" src="/images/imperial-courtyard-day.png" alt="Grand ivory courtyard of Imperial Satyendra hotel in Patna" fill sizes="100vw" priority />
+          <Image className="hero-media" src="/images/stay-suite-hero.jpeg" alt="Sunset-lit suite with a city view at Imperial Satyendra in Patna" fill sizes="100vw" priority />
           <div className="hero-wash" />
           <div className="hero-content">
             <p className="eyebrow hero-kicker">Patna · Bihar · India</p>
@@ -396,12 +398,14 @@ export default function ImperialHome() {
         <div className="footer-brand"><Image src={logo} alt="Imperial Satyendra" /><p>Stay beautifully. Celebrate grandly.</p></div>
         <div className="footer-links"><a href="/stay">Stay</a><a href="/celebrate">Celebrate</a><a href="/dine">Dine</a><a href="/gallery">Gallery</a></div>
         <p className="footer-location">Patna, Bihar, India</p>
+        <FooterContactLinks />
         <p className="copyright">© {new Date().getFullYear()} Imperial Satyendra. All rights reserved.</p>
       </footer>
 
       <div className={`menu-overlay ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
         <button onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={26} /></button>
         <nav>{[["Stay", "/stay"], ["Celebrate", "/celebrate"], ["Dine", "/dine"], ["Gallery", "/gallery"]].map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
+        <MenuContactLinks />
         <button className="primary-button gold" onClick={() => { setMenuOpen(false); setEnquiryOpen(true); }}>Make an enquiry</button>
       </div>
 
